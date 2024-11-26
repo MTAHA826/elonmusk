@@ -32,7 +32,7 @@ doc_store = QdrantVectorStore.from_existing_collection(
     prefer_grpc=True,
     collection_name="Elon Muske"
 
-
+)
 # Initialize Google LLM
 google_api = os.getenv('google_api_key')
 llm = GoogleGenerativeAI(model="gemini-1.5-flash-002", google_api_key=google_api)
