@@ -38,13 +38,19 @@ def transcribe_audio(audio_bytes):
     audio_array = convert_bytes_to_array(audio_bytes)
     prediction = pipe(audio_array, batch_size=1)["text"]
     return prediction
-  
+
+voice_recording_column, send_button_column = st.columns(2)
+chat_container = st.container()
+with voice_recording_column:
+    voice_recording=mic_recorder(start_prompt="Start recording",stop_prompt="Stop recording", just_once=True)
+with send_button_column:
+    send_button = st.button("Send", key="send_button", on_click=clear_input_field)
 # Load document   
-  if voice_recording:
-        transcribed_audio = transcribe_audio(voice_recording["bytes"])
-        print(transcribed_audio)
-        llm_chain = load_chain(chat_history)
-        llm_chain.run(transcribed_audio)
+if voice_recording:
+    transcribed_audio = transcribe_audio(voice_recording["bytes"])
+    print(transcribed_audio)
+    llm_chain = load_chain(chat_history)
+    llm_chain.run(transcribed_audio)
 
 loader = WebBaseLoader('https://en.wikipedia.org/wiki/Elon_Musk',
                        bs_kwargs=dict(parse_only=SoupStrainer(class_=('mw-content-ltr mw-parser-output'))))
