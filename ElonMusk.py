@@ -9,7 +9,6 @@ from langchain_core.output_parsers import StrOutputParser
 from langchain_google_genai import GoogleGenerativeAI
 from operator import itemgetter
 from dotenv import load_dotenv
-from streamlit_mic_recorder import mic_recorder
 import bs4
 from bs4 import SoupStrainer
 loader = WebBaseLoader('https://en.wikipedia.org/wiki/Elon_Musk',
@@ -32,7 +31,7 @@ doc_store = QdrantVectorStore.from_existing_collection(
     api_key=api_key,
     prefer_grpc=True,
     collection_name="Elon Muske"
-)
+
 
 # Initialize Google LLM
 google_api = os.getenv('google_api_key')
