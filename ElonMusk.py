@@ -9,12 +9,43 @@ from langchain_core.output_parsers import StrOutputParser
 from langchain_google_genai import GoogleGenerativeAI
 from operator import itemgetter
 from dotenv import load_dotenv
+from streamlit_mic_recorder import mic_recorder
 import bs4
 from bs4 import SoupStrainer
+import torch
+from transformers import pipeline
+import librosa
+import io
 # Initialize the environment
 load_dotenv()
 
-# Load document
+def convert_bytes_to_array(audio_bytes):
+    audio_bytes = io.BytesIO(audio_bytes)
+    audio, sample_rate = librosa.load(audio_bytes)
+    print(sample_rate)
+    return audio
+
+def transcribe_audio(audio_bytes):
+    device = "cuda:0" if torch.cuda.is_available() else "cpu"
+
+    pipe = pipeline(
+        task="automatic-speech-recognition",
+        model="openai/whisper-small",
+        chunk_length_s=30,
+        device=device,
+    )   
+
+    audio_array = convert_bytes_to_array(audio_bytes)
+    prediction = pipe(audio_array, batch_size=1)["text"]
+    return prediction
+  
+# Load document   
+  if voice_recording:
+        transcribed_audio = transcribe_audio(voice_recording["bytes"])
+        print(transcribed_audio)
+        llm_chain = load_chain(chat_history)
+        llm_chain.run(transcribed_audio)
+
 loader = WebBaseLoader('https://en.wikipedia.org/wiki/Elon_Musk',
                        bs_kwargs=dict(parse_only=SoupStrainer(class_=('mw-content-ltr mw-parser-output'))))
 documents = loader.load()
@@ -71,6 +102,7 @@ query = st.text_input("Please enter a query")
 
 # Only invoke the chain if a query is entered
 if query:
+    st.spinner("Processing image...")
     # Process the query and get the response
     response = _chain.invoke({'question': query})
     st.write(response)
