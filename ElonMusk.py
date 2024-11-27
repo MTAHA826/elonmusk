@@ -84,5 +84,5 @@ if query:  # Only process if the button is clicked and query is not empty
         st.chat_message("assistant").write(response)  # Right side for assistant response
 
     # Inject JavaScript to auto-scroll
-elif not query:
-    st.warning("Please enter a query before clicking 'Enter Button'.")
+else:
+    st.write("Please enter a query to interact with the chatbot.")
