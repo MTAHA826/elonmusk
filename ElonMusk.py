@@ -33,6 +33,8 @@ doc_store = QdrantVectorStore.from_existing_collection(
     collection_name="Elon Muske"
 
 )
+chat_container=st.container()
+
 # Initialize Google LLM
 google_api = os.getenv('google_api_key')
 llm = GoogleGenerativeAI(model="gemini-1.5-flash-002", google_api_key=google_api)
@@ -61,17 +63,16 @@ _chain = setup | _prompt | llm | StrOutputParser()
 
 # Streamlit UI
 st.title("Ask Anything About Elon Musk")
-
 # Input field for the user to type a query
 query = st.text_input("Please enter a query")
-
 # Only invoke the chain if a query is entered
 if query:
+    response = _chain.invoke({'question': query})
+    with st_container:
+    st.chat_message('user').write(query)
+    st.chat_message('ai').write(response)
     st.spinner("Processing image...")
     # Process the query and get the response
-    response = _chain.invoke({'question': query})
-    st.write(response)
-
     # Update chat history
     query = f"user_question: {query}"
     response = f"ai_response: {response}"
