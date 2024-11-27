@@ -67,7 +67,7 @@ st.title("Ask Anything About Elon Musk")
 query = st.text_input("Please enter a query")
 # Only invoke the chain if a query is entered
 if query:
-    with st.spinner('Processing....')
+    with st.spinner('Processing....'):
       response = _chain.invoke({'question': query})
     with chat_container:
       st.chat_message('user').write(query)
