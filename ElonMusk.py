@@ -69,9 +69,9 @@ query = st.text_input("Please enter a query")
 if query:
     response = _chain.invoke({'question': query})
     with st_container:
-    st.chat_message('user').write(query)
-    st.chat_message('ai').write(response)
-    st.spinner("Processing image...")
+      st.chat_message('user').write(query)
+      st.chat_message('ai').write(response)
+      st.spinner("Processing image...")
     # Process the query and get the response
     # Update chat history
     query = f"user_question: {query}"
