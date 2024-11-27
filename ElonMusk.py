@@ -72,18 +72,8 @@ st.title("Ask Anything About Elon Musk")
 # Chat container for conversation
 chat_container = st.container()
 
-# Inject JavaScript for auto-scroll
-scroll_js = """
-<script>
-    var chat_container = window.parent.document.querySelector('.block-container');
-    if (chat_container) {
-        chat_container.scrollTop = chat_container.scrollHeight;
-    }
-</script>
-"""
-
 # Create input field and send button in parallel
-col1, col2 = st.columns([4, 1])  # Adjust column widths
+col1, col2 = st.columns([2, 1])  # Adjust column widths
 with col1:
     query = st.text_input("Please enter a query", key="input_field")  # Input field in the first column
 with col2:
