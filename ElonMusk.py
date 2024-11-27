@@ -84,14 +84,18 @@ scroll_js = """
 
 # Input field for the user to type a query
 query = st.text_input("Please enter a query")
-
+col1, col2 = st.columns([4, 1])  # Adjust column widths
+with col1:
+    query = st.text_input("Please enter a query", key="input_field")  # Input field in the first column
+with col2:
+    send_button = st.button("Send")  
 # Process the query if entered
-if query:
+if send_button and query:
     with st.spinner("Processing... Please wait!"):  # Spinner starts here
         response = _chain.invoke({'question': query})  # Generate response
     with chat_container:
         st.chat_message('user').write(query)
-        st.chat_message('assistance').write(response)
+        st.chat_message('ai').write(response)
     # Inject JavaScript to scroll
     st.markdown(scroll_js, unsafe_allow_html=True)
 else:
