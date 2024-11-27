@@ -73,7 +73,7 @@ st.title("Ask Anything About Elon Musk")
 chat_container = st.container()
 
 # Create input field and send button in parallel
-col1, col2 = st.columns([2, 1])  # Adjust column widths
+col1, col2 = st.columns([6, 1])  # Adjust column widths
 with col1:
     query = st.text_input("Please enter a query", key="input_field")  # Input field in the first column
 with col2:
