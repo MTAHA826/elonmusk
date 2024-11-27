@@ -83,7 +83,7 @@ scroll_js = """
 """
 
 # Input field for the user to type a query
-query = st.text_input("Please enter a query")
+#query = st.text_input("Please enter a query")
 col1, col2 = st.columns([4, 1])  # Adjust column widths
 with col1:
     query = st.text_input("Please enter a query", key="input_field")  # Input field in the first column
