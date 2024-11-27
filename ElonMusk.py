@@ -91,7 +91,7 @@ if query:
         response = _chain.invoke({'question': query})  # Generate response
     with chat_container:
         st.chat_message('user').write(query)
-        st.chat_message('ai').write(response)
+        st.chat_message('assistance').write(response)
     # Inject JavaScript to scroll
     st.markdown(scroll_js, unsafe_allow_html=True)
 else:
