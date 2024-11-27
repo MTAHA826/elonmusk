@@ -11,8 +11,15 @@ from operator import itemgetter
 from dotenv import load_dotenv
 import bs4
 from bs4 import SoupStrainer
-loader = WebBaseLoader('https://en.wikipedia.org/wiki/Elon_Musk',
-                       bs_kwargs=dict(parse_only=SoupStrainer(class_=('mw-content-ltr mw-parser-output'))))
+
+# Load environment variables
+load_dotenv()
+
+# Document loader
+loader = WebBaseLoader(
+    'https://en.wikipedia.org/wiki/Elon_Musk',
+    bs_kwargs=dict(parse_only=SoupStrainer(class_=('mw-content-ltr mw-parser-output')))
+)
 documents = loader.load()
 
 # Split documents into chunks
@@ -31,20 +38,19 @@ doc_store = QdrantVectorStore.from_existing_collection(
     api_key=api_key,
     prefer_grpc=True,
     collection_name="Elon Muske"
-
 )
-chat_container=st.container()
 
 # Initialize Google LLM
 google_api = os.getenv('google_api_key')
 llm = GoogleGenerativeAI(model="gemini-1.5-flash-002", google_api_key=google_api)
 
-# Setup
-history = []
+# Setup retriever and chain
 num_chunks = 5
 retriever = doc_store.as_retriever(search_type="mmr", search_kwargs={"k": num_chunks})
+
 def format_docs(docs):
     return "\n\n".join(doc.page_content for doc in docs)
+
 prompt_str = """
 You are a highly knowledgeable and conversational chatbot specializing in providing accurate and insightful information about Elon Musk.
 Answer all questions as if you are an expert on his life, career, companies, and achievements.
@@ -57,27 +63,36 @@ _prompt = ChatPromptTemplate.from_template(prompt_str)
 
 # Chain setup
 query_fetcher = itemgetter("question")
-history_fetcher = itemgetter("chat_history")
-setup = {"question": query_fetcher, "context": query_fetcher | retriever|format_docs}
+setup = {"question": query_fetcher, "context": query_fetcher | retriever | format_docs}
 _chain = setup | _prompt | llm | StrOutputParser()
 
 # Streamlit UI
 st.title("Ask Anything About Elon Musk")
+
+# Chat container
+chat_container = st.container()
+
+# Inject JavaScript for auto-scrolling
+scroll_js = """
+<script>
+    var chat_container = window.parent.document.querySelector('.block-container');
+    if (chat_container) {
+        chat_container.scrollTop = chat_container.scrollHeight;
+    }
+</script>
+"""
+
 # Input field for the user to type a query
 query = st.text_input("Please enter a query")
-# Only invoke the chain if a query is entered
+
+# Process the query if entered
 if query:
-    with st.spinner('Processing....'):
-      response = _chain.invoke({'question': query})
+    with st.spinner("Processing... Please wait!"):  # Spinner starts here
+        response = _chain.invoke({'question': query})  # Generate response
     with chat_container:
-      st.chat_message('user').write(query)
-      st.chat_message('ai').write(response)
-    # Process the query and get the response
-    # Update chat history
-    query = f"user_question: {query}"
-    response = f"ai_response: {response}"
-    history.append((query, response))
+        st.chat_message('user').write(query)
+        st.chat_message('ai').write(response)
+    # Inject JavaScript to scroll
+    st.markdown(scroll_js, unsafe_allow_html=True)
 else:
     st.write("Please enter a query to interact with the chatbot.")
-
-
