@@ -68,21 +68,15 @@ _chain = setup | _prompt | llm | StrOutputParser()
 
 # Streamlit UI
 st.title("Ask Anything About Elon Musk")
-query = st.text_input("Please enter a query")
-# Chat container for conversation
 chat_container = st.container()
+query = st.text_input("Please enter a query")
 
-# Create input field and send button in parallel
-# Process the query if the button is clicked
-if query:  # Only process if the button is clicked and query is not empty
+# Process the query if entered
+if query:
     with st.spinner("Processing... Please wait!"):  # Spinner starts here
         response = _chain.invoke({'question': query})  # Generate response
-
-    # Display user query (left-aligned)
     with chat_container:
-        st.chat_message("user").write(query)  # Left side for user input
-        st.chat_message("assistant").write(response)  # Right side for assistant response
-
-    # Inject JavaScript to auto-scroll
+        st.chat_message('user').write(query)
+        st.chat_message('ai').write(response)
 else:
     st.write("Please enter a query to interact with the chatbot.")
