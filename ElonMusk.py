@@ -68,19 +68,13 @@ _chain = setup | _prompt | llm | StrOutputParser()
 
 # Streamlit UI
 st.title("Ask Anything About Elon Musk")
-
+query = st.text_input("Please enter a query")
 # Chat container for conversation
 chat_container = st.container()
 
 # Create input field and send button in parallel
-col1, col2 = st.columns([6, 1])  # Adjust column widths
-with col1:
-    query = st.text_input("Please enter a query", key="input_field")  # Input field in the first column
-with col2:
-    send_button = st.button("Send")  # Send button in the second column
-
 # Process the query if the button is clicked
-if send_button and query:  # Only process if the button is clicked and query is not empty
+if query:  # Only process if the button is clicked and query is not empty
     with st.spinner("Processing... Please wait!"):  # Spinner starts here
         response = _chain.invoke({'question': query})  # Generate response
 
@@ -90,6 +84,5 @@ if send_button and query:  # Only process if the button is clicked and query is 
         st.chat_message("assistant").write(response)  # Right side for assistant response
 
     # Inject JavaScript to auto-scroll
-    st.markdown(scroll_js, unsafe_allow_html=True)
-elif send_button and not query:
-    st.warning("Please enter a query before clicking 'Send'.")
+elif not query:
+    st.warning("Please enter a query before clicking 'Enter Button'.")
