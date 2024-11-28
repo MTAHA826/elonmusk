@@ -5,6 +5,7 @@ transformers
 qdrant_client
 langchain-qdrant
 streamlit
+install streamlit-mic-recorder
 bs4
 langchain-google-genai
 pillow
