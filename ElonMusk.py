@@ -76,7 +76,6 @@ chat_container = st.container()
 # Input field for queries
 with st.container():  # Separate container for input field
     query = st.text_input("Please enter a query", label_visibility="collapsed")  # Hides label for a cleaner look
-   # send_button = st.button("Send")  # Send button to process input
 #def clear_inpu_field():
    # st.session_state.query=''
 def main():
