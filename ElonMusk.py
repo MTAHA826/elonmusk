@@ -75,12 +75,11 @@ chat_container = st.container()
 def main():
     voice_recording,send_btn=st.columns(2)
     sending_container=st.container()
-    with vice_recording:
+    with voice_recording:
         mic_record=mic_recorder(start_prompt='Start recording', stop_prompt='Stop_recording',just_once=True)
     with send_btn:
-        btn_send=st.send("Send",key='send_btn', on_click=clear_input_field)
+        btn_send=st.button("Send",key='send_btn', on_click=clear_input_field)
 # Input field for queries
-main()
 with st.container():  # Separate container for input field
     query = st.text_input("Please enter a query", label_visibility="collapsed")  # Hides label for a cleaner look
     send_button = st.button("Send")  # Send button to process input
@@ -95,3 +94,7 @@ if send_button and query:
 else:
     with chat_container:
         st.write("Start asking questions to interact with the chatbot") 
+
+if __name__ == "__main__":
+    main()
+
