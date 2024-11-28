@@ -84,7 +84,13 @@ def main():
     with voice_recording:
         mic_record=mic_recorder(start_prompt='Start recording', stop_prompt='Stop_recording',just_once=True)
 # Process the query if the button is clicked or query is entered
-if btn_send and query:
+# Input field and Send button in one container
+with st.container():
+    query = st.text_input("Please enter a query", label_visibility="collapsed", key="query")
+    send_button = st.button("Send", key="send_btn")  # Single send button
+
+# Chat logic
+if send_button and query:
     with st.spinner("Processing... Please wait!"):  # Spinner starts here
         response = _chain.invoke({'question': query})  # Generate response
     with chat_container:  # Append to chat container
@@ -92,7 +98,7 @@ if btn_send and query:
         st.chat_message('ai').write(response)
 else:
     with chat_container:
-        st.write("Start asking questions to interact with the chatbot") 
+        st.write("Start asking questions to interact with the chatbot")
 
 if __name__ == "__main__":
     main()
