@@ -76,7 +76,7 @@ def main:
     voice_recording,send_btn=st.columns(2)
     sending_container=st.container()
     with vice_recording:
-        mic_record=mic_recorder(start_prompt='Start recording', stop_prompt='Stop_recording,just_once=True)
+        mic_record=mic_recorder(start_prompt='Start recording', stop_prompt='Stop_recording',just_once=True)
     with send_btn:
         btn_send=st.send("Send",key='send_btn', on_click=clear_input_field)
 # Input field for queries
