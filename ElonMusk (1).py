@@ -101,6 +101,3 @@ else:
     with chat_container:
         st.write("Start asking questions to interact with the chatbot")
 
-#if __name__ == "__main__":
-  #  main()
-
