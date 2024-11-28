@@ -1,5 +1,6 @@
 import os
 import streamlit as st
+from streamlit_mic_recorder import mic_recorder
 from langchain_community.document_loaders import WebBaseLoader
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain_huggingface import HuggingFaceEmbeddings
@@ -71,7 +72,13 @@ st.title("Ask Anything About Elon Musk")
 
 # Chat container to display conversation
 chat_container = st.container()
-
+def main:
+    voice_recording,send_btn=st.columns(2)
+    sending_container=st.container()
+    with vice_recording:
+        mic_record=mic_recorder(start_prompt='Start recording', stop_prompt='Stop_recording,just_once=True)
+    with send_btn:
+        btn_send=st.send("Send",key='send_btn', on_click=clear_input_field)
 # Input field for queries
 with st.container():  # Separate container for input field
     query = st.text_input("Please enter a query", label_visibility="collapsed")  # Hides label for a cleaner look
