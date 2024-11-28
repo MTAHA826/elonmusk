@@ -72,7 +72,7 @@ st.title("Ask Anything About Elon Musk")
 
 # Chat container to display conversation
 chat_container = st.container()
-def main:
+def main():
     voice_recording,send_btn=st.columns(2)
     sending_container=st.container()
     with vice_recording:
