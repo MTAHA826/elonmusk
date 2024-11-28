@@ -88,7 +88,7 @@ def main():
                           # on_click=clear_input_field
                           )
 # Process the query if the button is clicked or query is entered
-if send_button and query:
+if btn_send and query:
     with st.spinner("Processing... Please wait!"):  # Spinner starts here
         response = _chain.invoke({'question': query})  # Generate response
     with chat_container:  # Append to chat container
