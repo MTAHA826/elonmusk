@@ -77,15 +77,17 @@ chat_container = st.container()
 with st.container():  # Separate container for input field
     query = st.text_input("Please enter a query", label_visibility="collapsed")  # Hides label for a cleaner look
     send_button = st.button("Send")  # Send button to process input
-def clear_inpu_field():
-    st.session_state.query=''
+#def clear_inpu_field():
+   # st.session_state.query=''
 def main():
     voice_recording,send_btn=st.columns(2)
-    sending_container=st.container()
+    sending_container=st.container()                        
     with voice_recording:
         mic_record=mic_recorder(start_prompt='Start recording', stop_prompt='Stop_recording',just_once=True)
     with send_btn:
-        btn_send=st.button("Send",key='send_btn', on_click=clear_input_field)
+        btn_send=st.button("Send",key='send_btn', 
+                          # on_click=clear_input_field
+                          )
 # Process the query if the button is clicked or query is entered
 if send_button and query:
     with st.spinner("Processing... Please wait!"):  # Spinner starts here
