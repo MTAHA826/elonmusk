@@ -83,10 +83,6 @@ def main():
     sending_container=st.container()                        
     with voice_recording:
         mic_record=mic_recorder(start_prompt='Start recording', stop_prompt='Stop_recording',just_once=True)
-    with send_btn:
-        btn_send=st.button("Send",key='send_btn', 
-                          # on_click=clear_input_field
-                          )
 # Process the query if the button is clicked or query is entered
 if btn_send and query:
     with st.spinner("Processing... Please wait!"):  # Spinner starts here
