@@ -80,6 +80,7 @@ def main():
     with send_btn:
         btn_send=st.send("Send",key='send_btn', on_click=clear_input_field)
 # Input field for queries
+main()
 with st.container():  # Separate container for input field
     query = st.text_input("Please enter a query", label_visibility="collapsed")  # Hides label for a cleaner look
     send_button = st.button("Send")  # Send button to process input
