@@ -77,19 +77,8 @@ chat_container = st.container()
 with st.container():  # Separate container for input field
     query = st.text_input("Please enter a query", label_visibility="collapsed")  # Hides label for a cleaner look
     send_button=st.button("Send", key='send_btn')
-#def clear_inpu_field():
-   # st.session_state.query=''
-#def main():
- #   voice_recording,send_btn=st.columns(2)
-  #  sending_container=st.container()                        
-  #  with voice_recording:
-   #     mic_record=mic_recorder(start_prompt='Start recording', stop_prompt='Stop_recording',just_once=True)
 # Process the query if the button is clicked or query is entered
 # Input field and Send button in one container
-with st.container():
-    query = st.text_input("Please enter a query", label_visibility="collapsed", key="query")
-    send_button = st.button("Send", key="send_btn")  # Single send button
-
 # Chat logic
 if send_button and query:
     with st.spinner("Processing... Please wait!"):  # Spinner starts here
@@ -100,7 +89,3 @@ if send_button and query:
 else:
     with chat_container:
         st.write("Start asking questions to interact with the chatbot")
-
-#if __name__ == "__main__":
-  #  main()
-
